@@ -67,7 +67,6 @@ cargarProductos()
 inputBuscar.addEventListener('search', ()=> {
     let textoAbuscar = inputBuscar.value.trim().toLowerCase()
     let resultado = productos.filter((producto)=> producto.titulo.toLowerCase().includes(textoAbuscar))
-    console.log(resultado)
     if(resultado.length > 0){
         contenedorIndex.innerHTML = ""
         totalSection.innerHTML = ""
