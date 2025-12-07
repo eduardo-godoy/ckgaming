@@ -1,3 +1,5 @@
+const urlJson = './productos.json'
+
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
 const numeroCarrito = document.querySelector('p.p-cart')
@@ -5,22 +7,20 @@ const inputBuscar = document.querySelector('input.input-index')
 const botonComputadora = document.querySelector('li ul.ul-index-1')
 const botonNotebooks = document.querySelector('li ul.ul-index-2')
 const totalSection = document.querySelector('section.total-section')
-const btnCart = document.querySelector('a.a-cart')
+const linkCarrito = document.querySelector('a.a-cart')
 const logo = document.querySelector('a.logo-a')
+const botonCarrito = document.querySelector('.btn-ckeckout')
+const botonFinalizarCompra = document.querySelector("a.a-formulario")
+botonCarrito.style.display = 'none'
+botonFinalizarCompra.style.display = 'none'
 
-// tomamos el carrito de localstorage y lo convertimos en array
-
+// TOMAMOS EL CARRITO DE LOCALSTORAGE Y LO CONVERTIMOS EN UN ARRAY, Y SI NO HAY NADA UN ARRAY VACIO
 let carrito = JSON.parse(localStorage.getItem('carrito')) || []
+let productos = []
 
-
-// funciones del index, renderizado de todos los productos, mas la funcion del agregado al carrito 
 
 function crearCardError() {
-    return `<div class="div-card-error">
-                <div class="imagen-error">🤦🏻‍♂️</div>
-                <div class="leyenda-error">No pudimos cargar los productos</div>
-                <div class="leyenda-intento">Intenta nuevamente en unos segundos.</div>
-           </div>`
+    return `<h1>Lo siento, intente nuevamente mas tarde.</h1>`
 }
 
 function crearCardHTML({id, imagen, titulo, precio}) {
@@ -32,9 +32,19 @@ function crearCardHTML({id, imagen, titulo, precio}) {
             </article>`
 }
 
-// funcion que agrega al carrito los productos, tomandolos por su id y pusheandolos en el array de carrito, por ultimo se convierte en 
-// un json y se guarda en local storage
+function mensajeToast(mensaje) {
+    Toastify({
+        text: mensaje,
+        duration: 2000,
+        close: true,
+        style: {
+          background: 'gray',
+        }
+    }).showToast()
+}
 
+// FUNCION QUE TOMA A LOS PRODUCTOS POR SU ID Y LOS PUSHEA AL CARRITO VACIO O YA LLENO, PARA DESPUES GUARDARLOS EN LOCALSTORAGE
+// MUESTRA LA LONGITUD DEL CARRITO EN SU ICONO ARRIBA A LA DERECHA
 function activarClickEnBotones() {
     const botonesAgregar = document.querySelectorAll("button.btn")
     botonesAgregar.forEach((boton)=> {
@@ -44,10 +54,12 @@ function activarClickEnBotones() {
             carrito.push(productoSeleccionado)
             numeroCarrito.innerHTML = carrito.length || null
             localStorage.setItem("carrito", JSON.stringify(carrito))
+            mensajeToast(`${productoSeleccionado.titulo} se agregó al carrito`)
         })
     })
 }
 
+// FUNCIONES QUE CARGAR LOS PRODUCTOS EN EL INDEX + EL FETCH DEL JSON 
 function cargarProductos() {
     if (productos.length > 0) {
         contenedorIndex.innerHTML = ''
@@ -60,10 +72,20 @@ function cargarProductos() {
     }
 }
 
-cargarProductos()
+function cargarProductosJson(){
+    contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
+    setTimeout(()=> {
+        fetch(urlJson)
+        .then((response) => response.json())
+        .then((data) => productos.push(...data))
+        .then(()=>cargarProductos())
+        .catch((e) => contenedorIndex.innerHTML = crearCardError())
+    },1000)
+ }
 
-// eventos del input y el navbar, filtra por lo q escibre el usuario o haciendo click en computadora o notebook te filtra por la categoria.
+cargarProductosJson()
 
+// EVENTOS DEL INPUT SEARCH, MAS LOS FILTRADOS DE CATEGORIA, POR NOTEBOOK O COMPUTADORA
 inputBuscar.addEventListener('search', ()=> {
     let textoAbuscar = inputBuscar.value.trim().toLowerCase()
     let resultado = productos.filter((producto)=> producto.titulo.toLowerCase().includes(textoAbuscar))
@@ -97,9 +119,12 @@ botonComputadora.addEventListener('click', () => {
     activarClickEnBotones()
 })
 
-// funciones y eventos del carrito, haciendo click en el carrito esquina superior derecha
+logo.addEventListener('click', () => {
+    cargarProductos()
+})
 
-function crearCardHTMLError() {
+// FUNCIONES Y EVENTOS DEL CARRITO, HACIENDO CLICK EN EL CARRITO, ESQUINA SUPERIOR DERECHA
+function crearCardCartError() {
     return `<h2>No hay productos en el carrito</h2>`
 } 
 
@@ -114,7 +139,7 @@ function crearCardHTMLCart({imagen, titulo, precio}) {
 function mostrarTotal(){
     const compra = new Compra(carrito)
     let total = compra.obtenerTotal()
-    totalSection.innerHTML = 'El total de su compra es de: $' + total
+    totalSection.innerHTML = `<h3 class='h3-carrito'>El total de su compra es de: $${total}</h3>`
 }
 
 function cargarProductosEnCarrito() {
@@ -122,15 +147,50 @@ function cargarProductosEnCarrito() {
         tituloIndex.innerHTML = 'Carrito'
         contenedorIndex.innerHTML = ''
         carrito.forEach((producto) => contenedorIndex.innerHTML += crearCardHTMLCart(producto))
-        numeroCarrito.innerHTML = carrito.length || null
+        numeroCarrito.innerHTML = carrito.length || null  
+        botonCarrito.style.display = 'flex' 
         mostrarTotal()
-        totalSection
     } else {
         tituloIndex.innerHTML = ''
-        contenedorIndex.innerHTML = crearCardHTMLError()
+        contenedorIndex.innerHTML = crearCardCartError()
     }
 }
 
-// evento del dom para acceder al carrito
+linkCarrito.addEventListener('click', cargarProductosEnCarrito)
 
-btnCart.addEventListener('click', cargarProductosEnCarrito)
+// FUNCION PARA MOSTRAR EL FORMULARIO YA COMPLETADO Y FINALIZAR LA COMPRA
+function mostrarFormulario(){
+    botonFinalizarCompra.style.display = 'flex'
+    totalSection.style.display = 'none'
+    tituloIndex.style.display = 'none'
+    botonCarrito.style.display = 'none'
+    contenedorIndex.innerHTML = ''
+    contenedorIndex.innerHTML = `
+                                <label class="label">Nombre completo</label><input class="input-formulario" value="Cosme Fulanito">
+                                <label class="label">Email</label><input class="input-formulario" value="cosmeFulanito@gmail.com">
+                                <label class="label">Dirección</label><input class="input-formulario" value="Avenida Siempre Viva 123">
+                                <label class="label">Teléfono</label><input class="input-formulario" value="1164692686">
+                                `
+}
+
+botonCarrito.addEventListener('click', mostrarFormulario)
+
+// ULTIMA FUNCION Y EVENTO PARA TERMINAR LA COMPRA MOSTRANDO UN MENSAJE POR LA LIBRERIA SWEETALERT2 
+// Y REDIRECCIONANDO POR ULTIMA AL INDEX CON TODOS LOS PRODUCTOS Y BORRANDO EL CARRIGO DE LOCALSTORAGE
+function terminarCompra(){
+    Swal.fire({
+        icon: 'success',
+        title: '¡Muchas gracias por su compra! En breve serás contactacto para coordinar la entrega',
+        html: '¡Muchas gracias por elegirnos!',
+        timer: 5000,
+    },)
+    setTimeout(()=>{
+        localStorage.clear()
+        carrito.length = 0
+        botonFinalizarCompra.style.display = 'none'
+        cargarProductos()
+    },2000)
+    
+}
+
+botonFinalizarCompra.addEventListener('click', terminarCompra)
