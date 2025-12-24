@@ -1,7 +1,5 @@
 const UrlJson = './productos.json'
 
-console.alert(UrlJson)
-
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
 const numeroCarrito = document.querySelector('p.p-cart')
