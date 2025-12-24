@@ -17,7 +17,7 @@
 {
     "id": 3,
     "titulo": "Computadora Gamer 3",
-    "imagen": "./assets/images/Compu3.jpeg",
+    "imagen": "./assets/images/compu3.jpeg",
     "descripcion": "Computadora Gamers numero 3",
     "precio": 3000,
     "categoria": "Computadoras"
@@ -25,7 +25,7 @@
 {
     "id": 4,
     "titulo": "Computadora Gamer 4",
-    "imagen": "./assets/images/Compu4.jpeg",
+    "imagen": "./assets/images/compu4.jpeg",
     "descripcion": "Computadora Gamers numero 4",
     "precio": 4000,
     "categoria": "Computadoras"
@@ -33,7 +33,7 @@
 {
     "id": 5,
     "titulo": "Computadora Gamer 5",
-    "imagen": "./assets/images/Compu5.jpeg",
+    "imagen": "./assets/images/compu5.jpeg",
     "descripcion": "Computadora Gamers numero 5",
     "precio": 5000,
     "categoria": "Computadoras"
@@ -41,7 +41,7 @@
 {
     "id": 6,
     "titulo": "Computadora Gamer 6",
-    "imagen": "./assets/images/Compu6.jpeg",
+    "imagen": "./assets/images/compu6.jpeg",
     "descripcion": "Computadora Gamers numero 6",
     "precio": 6000,
     "categoria": "Computadoras"
@@ -49,7 +49,7 @@
 {
     "id": 7,
     "titulo": "Computadora Gamer 7",
-    "imagen": "./assets/images/Compu7.jpeg",
+    "imagen": "./assets/images/compu7.jpeg",
     "descripcion": "Computadora Gamers numero 7",
     "precio": 7000,
     "categoria": "Computadoras"
@@ -57,7 +57,7 @@
 {
     "id": 8,
     "titulo": "Computadora Gamer 8",
-    "imagen": "./assets/images/Compu8.jpeg",
+    "imagen": "./assets/images/compu8.jpeg",
     "descripcion": "Computadora Gamers numero 8",
     "precio": 8000,
     "categoria": "Computadoras"
@@ -65,7 +65,7 @@
 {
     "id": 9,
     "titulo": "Computadora Gamer 9",
-    "imagen": "./assets/images/Compu9.jpeg",
+    "imagen": "./assets/images/compu9.jpeg",
     "descripcion": "Computadora Gamers numero 9",
     "precio": 9000,
     "categoria": "Computadoras"
@@ -102,7 +102,6 @@
     "precio": 14000,
     "categoria": "Notebooks"
 },
-
 {
     "id": 14,
     "titulo": "Notebook Gamer 5",
