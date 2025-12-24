@@ -9,7 +9,7 @@
 {
     "id": 2,
     "titulo": "Computadora Gamer 2",
-    "imagen": "./assets/images/Compu2.jpeg",
+    "imagen": "assets/images/Compu2.jpeg",
     "descripcion": "Computadora Gamers numero 2",
     "precio": 2000,
     "categoria": "Computadoras"
