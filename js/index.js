@@ -1,6 +1,6 @@
 const UrlJson = '../../ckgaming/database/productos.json'
 
-console.log(UrlJson)
+console.alert(UrlJson)
 
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
