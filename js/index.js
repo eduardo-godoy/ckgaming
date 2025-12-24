@@ -128,11 +128,12 @@ function crearCardCartError() {
     return `<h2>No hay productos en el carrito</h2>`
 } 
 
-function crearCardHTMLCart({imagen, titulo, precio}) {
+function crearCardHTMLCart({id, imagen, titulo, precio}) {
     return `<article class='article-card-cart'>
                 <img src='${imagen}' class='imagen-cart'/>
                 <h2 class='h2-titulo-cart'>${titulo}</h2>
                 <h3 class='h3-titulo-cart'>Precio: $${precio}</h3>
+                <button id="${id}" class='btnn'>Eliminar</button>
             </article>`
 }
 
@@ -155,6 +156,16 @@ function cargarProductosEnCarrito() {
         contenedorIndex.innerHTML = crearCardCartError()
     }
 }
+
+function EliminarProductoEnCarrito() {
+    const botonesAgregar = document.querySelectorAll("button.btnn")
+        boton.addEventListener("click", (e)=> {
+            const id = parseInt(e.target.id)
+            const carritonuevo = carrito.filter((producto) => producto.id !== id)
+
+            return carritonuevo;
+        })
+    }
 
 linkCarrito.addEventListener('click', cargarProductosEnCarrito)
 
