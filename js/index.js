@@ -1,4 +1,4 @@
-const urlJson = '../database/productos.json'
+const urlJson = "../database/productos.json"
 
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
@@ -162,7 +162,6 @@ function EliminarProductoEnCarrito() {
         boton.addEventListener("click", (e)=> {
             const id = parseInt(e.target.id)
             const carritonuevo = carrito.filter((producto) => producto.id !== id)
-
             return carritonuevo;
         })
     }
