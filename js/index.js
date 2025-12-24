@@ -75,7 +75,7 @@ function cargarProductos() {
 function cargarProductosJson(){
     contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
     setTimeout(()=> {
-        fetch()
+        fetch(UrlJson)
         .then((response) => response.json())
         .then((data) => productos.push(...data))
         .then(()=>cargarProductos())
