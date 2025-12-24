@@ -1,4 +1,4 @@
-const urlJson = './productos.json'
+const urlJson = '../database/productos.json'
 
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
