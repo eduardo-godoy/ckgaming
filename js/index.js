@@ -1,4 +1,6 @@
+const UrlJson = '../database/productos.json'
 
+console.log(UrlJson)
 
 const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
@@ -75,7 +77,7 @@ function cargarProductos() {
 function cargarProductosJson(){
     contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
     setTimeout(()=> {
-        fetch("../database/productos.json")
+        fetch(UrlJson)
         .then((response) => response.json())
         .then((data) => productos.push(...data))
         .then(()=>cargarProductos())
