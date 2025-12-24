@@ -1,4 +1,4 @@
-const UrlJson = '../../ckgaming/database/productos.json'
+const UrlJson = './productos.json'
 
 console.alert(UrlJson)
 
@@ -77,7 +77,7 @@ function cargarProductos() {
 function cargarProductosJson(){
     contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
     setTimeout(()=> {
-        fetch(UrlJson)
+        fetch()
         .then((response) => response.json())
         .then((data) => productos.push(...data))
         .then(()=>cargarProductos())
