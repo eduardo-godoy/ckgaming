@@ -1,7 +1,7 @@
 [{   
     "id": 1,
     "titulo": "Computadora Gamer 1",
-    "imagen": "./assets/images/compu2.jpeg",
+    "imagen": "./assets/images/compu1.png",
     "descripcion": "Computadora Gamers numero 1",
     "precio": 1000,
     "categoria": "Computadoras"
