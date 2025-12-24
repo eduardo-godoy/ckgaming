@@ -1,4 +1,6 @@
- const contenedorIndex = document.querySelector('section.main-section')
+const urlJson = "../database/productos.json"
+
+const contenedorIndex = document.querySelector('section.main-section')
 const tituloIndex = document.querySelector('h1.h1-index')
 const numeroCarrito = document.querySelector('p.p-cart')
 const inputBuscar = document.querySelector('input.input-index')
@@ -73,7 +75,7 @@ function cargarProductos() {
 function cargarProductosJson(){
     contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
     setTimeout(()=> {
-        fetch("../database/productos.json")
+        fetch(urlJson)
         .then((response) => response.json())
         .then((data) => productos.push(...data))
         .then(()=>cargarProductos())
