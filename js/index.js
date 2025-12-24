@@ -1,4 +1,4 @@
-const UrlJson = '../database/productos.json'
+const UrlJson = '../../ckgaming/database/productos.json'
 
 console.log(UrlJson)
 
