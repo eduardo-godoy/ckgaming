@@ -4,7 +4,8 @@ class Compra {
     }
     obtenerTotal() {
         if(this.carrito.length > 0) {   
-            return this.carrito.reduce((acu, compu) => acu + compu.precio, 0)
+            return this.carrito.reduce((acu, compu) => acu + (compu.precio * compu.cantidad),0)
         }
+        return 0
     }
 }
