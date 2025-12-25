@@ -177,6 +177,29 @@ h1{
     cursor: pointer;
 }
 
+.btnn{
+    -webkit-border-radius: 60;
+    -moz-border-radius: 60;
+    border-radius: 60px;
+    -webkit-box-shadow: 2px 1px 5px rgb(7,8,8);
+    -moz-box-shadow: 2px 1px 5px rgb(7,8,8);
+    box-shadow: 2px 1px 5px rgb(7,8,8);
+    font-family: Arial;
+    color: #FDFEFE;
+    font-size: 15px;
+    background: rgb(7,8,8);
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border: none;
+    margin: 5px;
+}
+  
+.btnn:hover{
+    background: rgba(43,45,47,1);
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .btn-ckeckout{
     -webkit-border-radius: 60;
     -moz-border-radius: 60;
@@ -200,8 +223,33 @@ h1{
     position: relative;
     left: 35%;
 }
+
+.btn-ckeckout-cart{
+    -webkit-border-radius: 60;
+    -moz-border-radius: 60;
+    border-radius: 60px;
+    -webkit-box-shadow: 2px 1px 5px rgb(7,8,8);
+    -moz-box-shadow: 2px 1px 5px rgb(7,8,8);
+    box-shadow: 2px 1px 5px rgb(7,8,8);
+    font-family: Arial;
+    color: #FDFEFE;
+    font-size: 15px;
+    background: rgb(7,8,8);
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border: none;
+    margin: auto;
+    text-align: center;
+    width: 10%;
+}
   
 .btn-ckeckout:hover{
+    background: rgba(43,45,47,1);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-ckeckout-cart:hover{
     background: rgba(43,45,47,1);
     text-decoration: none;
     cursor: pointer;
@@ -394,6 +442,39 @@ h1{
 .total-section{
     text-align: center;
     font-size: 25px;
+}
+
+.contador-cart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sumar{
+    font-weight: bold;
+    color: #FDFEFE;
+    font-size: 20px;
+    background: red;
+    border: 1px solid red;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+.restar{
+    font-weight: bold;
+    color: #FDFEFE;
+    font-size: 20px;
+    background: red;
+    border: 1px solid red;
+    padding: 6px 7px;
+    margin: 5px;
+    text-align: center;
+}
+
+.cantidad{
+    font-weight: bold;
+    color: black;
 }
 
 @media (min-width: 1600px) {

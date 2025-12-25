@@ -11,8 +11,12 @@ const linkCarrito = document.querySelector('a.a-cart')
 const logo = document.querySelector('a.logo-a')
 const botonCarrito = document.querySelector('.btn-ckeckout')
 const botonFinalizarCompra = document.querySelector("a.a-formulario")
+const botonVaciarCarrito = document.querySelector(".btn-ckeckout-cart")
+
+botonVaciarCarrito.style.display = "none";
 botonCarrito.style.display = 'none'
 botonFinalizarCompra.style.display = 'none'
+
 
 // TOMAMOS EL CARRITO DE LOCALSTORAGE Y LO CONVERTIMOS EN UN ARRAY, Y SI NO HAY NADA UN ARRAY VACIO
 let carrito = JSON.parse(localStorage.getItem('carrito')) || []
@@ -51,10 +55,19 @@ function activarClickEnBotones() {
         boton.addEventListener("click", (e)=> {
             const id = parseInt(e.target.id)
             const productoSeleccionado = productos.find((producto) => producto.id === id)
-            carrito.push(productoSeleccionado)
-            numeroCarrito.innerHTML = carrito.length || null
-            localStorage.setItem("carrito", JSON.stringify(carrito))
-            mensajeToast(`${productoSeleccionado.titulo} se agregó al carrito`)
+            const productoEnCarrito = carrito.find((producto) => producto.id === id)
+            if(productoEnCarrito){
+                mensajeToast(`Este producto ya se agregó al carrito`)
+            }else{  
+                carrito.push({
+                    ...productoSeleccionado,
+                    cantidad : 1 
+                }
+                )
+                numeroCarrito.innerHTML = carrito.length || null
+                mensajeToast(`${productoSeleccionado.titulo} se agregó al carrito`)
+                localStorage.setItem("carrito", JSON.stringify(carrito))
+            }
         })
     })
 }
@@ -128,16 +141,63 @@ function crearCardCartError() {
     return `<h2>No hay productos en el carrito</h2>`
 } 
 
-function crearCardHTMLCart({id, imagen, titulo, precio}) {
+function crearCardHTMLCart({id, imagen, titulo, precio, cantidad}) {
+    const subtotal = precio * cantidad;
+
     return `<article class='article-card-cart'>
                 <img src='${imagen}' class='imagen-cart'/>
                 <h2 class='h2-titulo-cart'>${titulo}</h2>
                 <h3 class='h3-titulo-cart'>Precio: $${precio}</h3>
+                <div class="contador-cart">
+                    <button class="restar" id="${id}">-</button>
+                    <span class="cantidad">${cantidad}</span>
+                    <button class="sumar" id="${id}">+</button>
+                </div>
+
+                <h3 class="subtotal">Subtotal: $${subtotal}</h3>
+                
                 <button id="${id}" class='btnn'>Eliminar</button>
             </article>`
 }
 
-function mostrarTotal(){
+function SumarProducto() {
+    document.querySelectorAll(".sumar").forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            const id = parseInt(e.target.id);
+            const producto = carrito.find(p => p.id === id);
+            if(producto.cantidad >= 5){
+                mensajeToast(`A alcanzado el limite de productos`)
+            }else{
+                producto.cantidad++;
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+                cargarProductosEnCarrito();
+            }
+            
+        });
+    });
+}
+
+function RestarProducto() {
+    document.querySelectorAll(".restar").forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            const id = parseInt(e.target.id);
+            const producto = carrito.find(p => p.id === id);
+            if (producto.cantidad > 1) {
+                producto.cantidad--;
+                
+            } else {
+                carrito = carrito.filter(p => p.id !== id);
+                if(carrito.length === 0){
+                    vaciarCarrito()
+                }
+            }
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            cargarProductosEnCarrito();
+        });
+    });
+}
+
+function mostrarTotal() {
     const compra = new Compra(carrito)
     let total = compra.obtenerTotal()
     totalSection.innerHTML = `<h3 class='h3-carrito'>El total de su compra es de: $${total}</h3>`
@@ -150,7 +210,11 @@ function cargarProductosEnCarrito() {
         carrito.forEach((producto) => contenedorIndex.innerHTML += crearCardHTMLCart(producto))
         numeroCarrito.innerHTML = carrito.length || null  
         botonCarrito.style.display = 'flex' 
+        botonVaciarCarrito.style.display = 'flex' 
         mostrarTotal()
+        EliminarProductoEnCarrito()
+        SumarProducto()
+        RestarProducto()
     } else {
         tituloIndex.innerHTML = ''
         contenedorIndex.innerHTML = crearCardCartError()
@@ -158,13 +222,32 @@ function cargarProductosEnCarrito() {
 }
 
 function EliminarProductoEnCarrito() {
-    const botonesAgregar = document.querySelectorAll("button.btnn")
-        boton.addEventListener("click", (e)=> {
+    const btn = document.querySelectorAll(".btnn")
+    btn.forEach(boton => {
+        boton.addEventListener("click", (e) => {
             const id = parseInt(e.target.id)
-            const carritonuevo = carrito.filter((producto) => producto.id !== id)
-            return carritonuevo;
+            carrito = carrito.filter(producto => producto.id !== id)
+            if (carrito.length > 0){
+                localStorage.setItem("carrito", JSON.stringify(carrito))
+                cargarProductosEnCarrito()
+            }else{
+                vaciarCarrito()
+            }     
         })
-    }
+    })
+}
+
+function vaciarCarrito() {
+    carrito = [];
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    tituloIndex.innerHTML = ''
+    contenedorIndex.innerHTML = crearCardCartError()
+    totalSection.innerHTML = ''
+    botonCarrito.style.display = 'none' 
+    botonVaciarCarrito.style.display = 'none'
+    numeroCarrito.innerHTML = null
+    cargarProductosEnCarrito();
+}
 
 linkCarrito.addEventListener('click', cargarProductosEnCarrito)
 
@@ -183,6 +266,7 @@ function mostrarFormulario(){
                                 `
 }
 
+botonVaciarCarrito.addEventListener('click', vaciarCarrito)
 botonCarrito.addEventListener('click', mostrarFormulario)
 
 // ULTIMA FUNCION Y EVENTO PARA TERMINAR LA COMPRA MOSTRANDO UN MENSAJE POR LA LIBRERIA SWEETALERT2 
