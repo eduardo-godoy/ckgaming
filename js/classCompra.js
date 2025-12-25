@@ -22,7 +22,18 @@ function mensajeToast(mensaje) {
         duration: 2000,
         close: true,
         style: {
-          background: 'gray',
+          background: 'green',
+        }
+    }).showToast()
+};
+
+function mensajeAlert(mensaje) {
+    Toastify({
+        text: mensaje,
+        duration: 1000,
+        close: true,
+        style: {
+          background: 'red',
         }
     }).showToast()
 };
@@ -35,7 +46,7 @@ function activarClickEnBotones() {
             const productoSeleccionado = productos.find((producto) => producto.id === id)
             const productoEnCarrito = carrito.find((producto) => producto.id === id)
             if(productoEnCarrito){
-                mensajeToast(`Este producto ya se agregó al carrito`)
+                mensajeAlert(`Este producto ya se agregó al carrito`)
             }else{  
                 carrito.push({
                     ...productoSeleccionado,
@@ -56,7 +67,7 @@ function SumarProducto() {
             const id = parseInt(e.target.id);
             const producto = carrito.find(p => p.id === id);
             if(producto.cantidad >= 5){
-                mensajeToast(`A alcanzado el limite de productos`)
+                mensajeAlert(`A alcanzado el limite de productos`)
             }else{
                 producto.cantidad++;
                 localStorage.setItem("carrito", JSON.stringify(carrito));
