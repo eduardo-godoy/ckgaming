@@ -123,6 +123,7 @@ function mostrarTotal() {
     const compra = new Compra(carrito)
     let total = compra.obtenerTotal()
     totalSection.innerHTML = `<h3 class='h3-carrito'>El total de su compra es de: $${total}</h3>`
+    return total
 }
 
 
@@ -199,18 +200,47 @@ function mostrarFormulario(){
 botonVaciarCarrito.addEventListener('click', vaciarCarrito)
 botonCarrito.addEventListener('click', mostrarFormulario)
 
+//generacion del recibo
+
+function generarRecibo(total) {
+    const nombre = document.getElementById('nombre').value
+    const email = document.getElementById('email').value
+    const direccion = document.getElementById('direccion').value
+    const telefono = document.getElementById('telefono').value
+    const fecha = new Date().toLocaleDateString()
+    const numeroRecibo = Math.floor(Math.random() * 1000000)
+
+    contenedorIndex.innerHTML = `
+        <section class="recibo">
+            <h1>🧾 Recibo de compra</h1>
+            <p><strong>Recibo Nº:</strong> ${numeroRecibo}</p>
+            <p class="p"><strong>Fecha:</strong> ${fecha}</p>
+            <h3>Datos del cliente</h3>
+            <p><strong>Nombre:</strong> ${nombre}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Dirección:</strong> ${direccion}</p>
+            <p class="p"><strong>Teléfono:</strong> ${telefono}</p>
+            <h2>Total pagado: $${total}</h2>
+            <p class="p-recibo">Gracias por su compra 🙌</p>
+        </section> 
+    `
+}
+
+//funcion que termina la compra
+
 function terminarCompra(){
+    const totalCompra = mostrarTotal()
     Swal.fire({
         icon: 'success',
-        title: '¡Muchas gracias por su compra! En breve serás contactacto para coordinar la entrega',
-        html: '¡Muchas gracias por elegirnos!',
-        timer: 5000,
+        title: '¡Muchas gracias por su compra! Espere unos segundos mientras generamos su RECIBO',
+        html: '¡En breve serás contactacto para coordinar la entrega!',
+        timer: 3000,
     },)
     setTimeout(()=>{
+        generarRecibo(totalCompra)
         localStorage.clear()
         carrito.length = 0
-        botonFinalizarCompra.style.display = 'none'
-        cargarProductos()
+        botonFinalizarCompra.style.display = 'none' 
     },2000)
     
 }

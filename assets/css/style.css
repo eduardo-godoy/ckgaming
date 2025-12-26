@@ -477,6 +477,20 @@ h1{
     color: black;
 }
 
+.recibo{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.p-recibo{
+    text-align: center;
+}
+
+.p{
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
 @media (min-width: 1600px) {
     .p-cart{
         position: absolute;
