@@ -11,9 +11,11 @@ const linkCarrito = document.querySelector('a.a-cart');
 const logo = document.querySelector('a.logo-a');
 const botonCarrito = document.querySelector('.btn-ckeckout');
 const botonFinalizarCompra = document.querySelector("a.a-formulario");
-const botonVaciarCarrito = document.querySelector(".btn-ckeckout-cart");
+const botonVaciarCarrito = document.querySelector('.btn-ckeckout-cart');
 
-let productos = [];
+let productos = []
+
+// cards pra crear los renderizados
 
 function crearCardError() {
     return `<h1>Lo siento, intente nuevamente mas tarde.</h1>`
@@ -26,7 +28,9 @@ function crearCardHTML({id, imagen, titulo, precio}) {
                 <h3 class='h2-titulo'>Precio: $${precio}</h3>
                 <button id="${id}" class='btn'>Agregar</button>
             </article>`
-};
+}
+
+// funciones para cargar los productos en el index
 
 function cargarProductos() {
     if (productos.length > 0) {
@@ -38,7 +42,7 @@ function cargarProductos() {
     } else {
         contenedorIndex.innerHTML = crearCardError()
     }
-};
+}
 
 function cargarProductosJson(){
     contenedorIndex.innerHTML = `<h1>Cargando productos, por favor espere...</h1>`
@@ -53,25 +57,29 @@ function cargarProductosJson(){
 
 cargarProductosJson()
 
+// funcion para el input buscar
+
 inputBuscar.addEventListener('search', ()=> {
     let textoAbuscar = inputBuscar.value.trim().toLowerCase()
     let resultado = productos.filter((producto)=> producto.titulo.toLowerCase().includes(textoAbuscar))
     if(resultado.length > 0){
-        contenedorIndex.innerHTML = ""
-        totalSection.innerHTML = ""
+        contenedorIndex.innerHTML = ''
+        totalSection.innerHTML = ''
         tituloIndex.innerHTML = 'Productos'
         resultado.forEach((producto)=> contenedorIndex.innerHTML += crearCardHTML(producto))
         activarClickEnBotones()  
     } else {
-        contenedorIndex.innerHTML = ""
-        totalSection.innerHTML = ""
+        contenedorIndex.innerHTML = ''
+        totalSection.innerHTML = ''
         tituloIndex.innerHTML = 'No hay resultados'
     } 
 })
 
+// funciones para los botenes del header
+
 botonNotebooks.addEventListener('click', () => {
     let productosASeparar = productos.filter((producto) => producto.categoria == "Notebooks")
-    contenedorIndex.innerHTML = ""
+    contenedorIndex.innerHTML = ''
     tituloIndex.innerHTML = 'Notebooks'
     productosASeparar.forEach((producto)=> contenedorIndex.innerHTML += crearCardHTML(producto))
     activarClickEnBotones()
@@ -79,7 +87,7 @@ botonNotebooks.addEventListener('click', () => {
 
 botonComputadora.addEventListener('click', () => {
     let productosASeparar = productos.filter((producto) => producto.categoria == "Computadoras")
-    contenedorIndex.innerHTML = ""
+    contenedorIndex.innerHTML = ''
     tituloIndex.innerHTML = 'Computadoras'
     productosASeparar.forEach((producto)=> contenedorIndex.innerHTML += crearCardHTML(producto))
     activarClickEnBotones()
@@ -88,6 +96,8 @@ botonComputadora.addEventListener('click', () => {
 logo.addEventListener('click', () => {
     cargarProductos()
 })
+
+// cards para renderizar las cards del carrito
 
 function crearCardCartError() {
     return `<h2>No hay productos en el carrito</h2>`
